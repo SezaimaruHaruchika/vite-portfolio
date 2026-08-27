@@ -1,0 +1,231 @@
+/*
+ * Tailwind CSS のエントリファイル。
+ * Figma の「design guide」（Light / Dark Theme）を @theme のデザイントークンに
+ * 落とし込み、全コンポーネントはユーティリティクラスでスタイリングする。
+ */
+@import 'tailwindcss';
+
+/*
+ * ダークモード用の variant。
+ * <html data-theme="dark"> が付いているとき dark:* が効くようにする
+ * （テーマの切り替えは ThemeProvider と index.html の初期化スクリプトが行う）。
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+ * テーマで切り替わる「生の」CSS 変数。
+ * 色はここにだけ定義し、下の @theme inline でユーティリティに接続する。
+ * こうすると data-theme を切り替えるだけで bg-bg や text-text の色が全部変わる。
+ */
+:root {
+  --c-bg: #fafafa; /* Background */
+  --c-surface: #ffffff; /* Surface */
+  --c-text: #1a1a1a; /* Text Primary */
+  --c-text-secondary: #6b6b6b; /* Text Secondary */
+  --c-accent: #ff6b2c; /* Accent */
+  --c-border: #e5e5e5; /* Border */
+  --c-border-strong: #444444; /* hover 時のボーダー */
+  --c-error: #dc2626; /* feedback/error */
+  --c-on-accent: #ffffff; /* アクセント上の文字色 */
+  --c-shadow-hover: 0 2px 1.6px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] {
+  --c-bg: #0f0f0f;
+  --c-surface: #141414;
+  --c-text: #f5f5f5;
+  --c-text-secondary: #9a9a9a;
+  --c-accent: #ff8c55;
+  --c-border: #444444;
+  --c-border-strong: #9a9a9a;
+  --c-error: #f87171;
+  --c-on-accent: #f5f5f5;
+  --c-shadow-hover: 0 2px 1.6px rgba(0, 0, 0, 0.6);
+}
+
+/*
+ * ヘッダーの高さ（下ボーダー 2px 込み）。
+ * Header 本体と、Top / About / 404 の「ヘッダーを除いた全画面」の計算が
+ * どちらもこの変数を参照するので、高さを変えるときはここだけ直せばよい。
+ */
+:root {
+  --header-h: 82px; /* 80px + border 2px */
+}
+
+@media (width < 60rem) {
+  :root {
+    --header-h: 66px; /* 64px + border 2px */
+  }
+}
+
+/* テーマ連動トークン（値を var() のままユーティリティに埋め込む） */
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-text: var(--c-text);
+  --color-text-secondary: var(--c-text-secondary);
+  --color-accent: var(--c-accent);
+  --color-border: var(--c-border);
+  --color-border-strong: var(--c-border-strong);
+  --color-error: var(--c-error);
+  --color-on-accent: var(--c-on-accent);
+  --shadow-hover: var(--c-shadow-hover);
+}
+
+/* テーマに依存しない固定トークン */
+@theme {
+  /* --- Typography（Figma: Text styles） --- */
+  --font-sans:
+    'Noto Sans JP', system-ui, -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+    'Yu Gothic', sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-h1: 48px; /* Heading 1: 48 / Bold */
+  --text-h1--line-height: 1.2;
+  --text-h2: 36px; /* Heading 2: 36 / Bold */
+  --text-h2--line-height: 1.2;
+  --text-h3: 18px; /* Heading 3: 18 / Bold */
+  --text-h3--line-height: 1.2;
+  --text-body: 24px; /* Body text: 24 / Regular / lh 1.28 / ls 8% */
+  --text-body--line-height: 1.28;
+  --text-body--letter-spacing: 0.08em;
+  --text-title: 16px; /* Title: 16 / Bold */
+  --text-title--line-height: 1.2;
+  --text-caption: 14px; /* Caption: 14 / Regular */
+  --text-caption--line-height: 1.2;
+
+  /* --- Radius --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 16px;
+  --radius-pill-lg: 24px;
+
+  /* --- Layout --- */
+  --container-content: 1192px; /* 1512 - 160 * 2（max-w-content） */
+  --container-column: 720px; /* カード一覧のカラム幅（max-w-column） */
+
+  /* --- Breakpoints（rem 指定: 60rem = 960px, 80rem = 1280px） --- */
+  --breakpoint-pc: 60rem;
+  --breakpoint-wide: 80rem;
+
+  /* --- Motion --- */
+  --ease-brand: cubic-bezier(0.2, 0, 0, 1);
+  --default-transition-duration: 0.2s;
+  --default-transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
+  --animate-fade-in: fade-in 0.35s cubic-bezier(0.2, 0, 0, 1);
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-bar-progress: bar-progress 1.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+  --animate-mark-bounce: mark-bounce 1.2s cubic-bezier(0.2, 0, 0, 1) infinite;
+  --animate-grow: grow 0.6s cubic-bezier(0.2, 0, 0, 1);
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes bar-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes mark-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* ユーティリティで表現しない、ページ全体のベーススタイル */
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  /* ローディング画面の表示中はスクロールさせない */
+  html[data-loading] {
+    overflow: hidden;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--c-text);
+    background-color: var(--c-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.2s var(--ease-brand),
+      color 0.2s var(--ease-brand);
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Tailwind v4 の Preflight はボタンを cursor: default にするので戻す */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* アイコン（Tabler Icons）は Figma の設定に合わせて線の太さを 1 に統一する
+     （デフォルトは 2。ローディング画面の自作 SVG マークには影響しない） */
+  .tabler-icon {
+    stroke-width: 1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

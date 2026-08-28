@@ -55,7 +55,7 @@ export const ja: Translations = {
     title: 'スキル',
     subtitle: 'Skills',
     lead: '開発で使っている技術を、習熟度と経験年数つきでまとめています。',
-    legend: 'バーは習熟度(5 段階)、右の数字は経験年数です。',
+    legend: 'バーは習熟度(6 段階)、右の数字は経験年数です。',
     categories: {
       frontend: {
         title: 'フロントエンド',

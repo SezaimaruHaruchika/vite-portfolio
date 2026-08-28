@@ -1,5 +1,5 @@
-/** 習熟度（5 段階） */
-export type SkillLevel = 1 | 2 | 3 | 4 | 5;
+/** 習熟度（6 段階） */
+export type SkillLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type SkillCategoryId = 'frontend' | 'backend' | 'infra';
 

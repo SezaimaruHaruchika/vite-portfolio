@@ -5,9 +5,9 @@ interface SkillLevelProps {
   label?: string;
 }
 
-const MAX_LEVEL = 5;
+const MAX_LEVEL = 6;
 
-/** 習熟度バー（Figma: skill-level-light。5 段階を 1 本の連続バーで表現） */
+/** 習熟度バー（Figma: skill-level-light。6 段階を 1 本の連続バーで表現） */
 export function SkillLevel({ level, label }: SkillLevelProps) {
   return (
     <div

@@ -55,7 +55,7 @@ export const en: Translations = {
     title: 'Skills',
     subtitle: 'スキル',
     lead: 'The technologies I use in development, with proficiency and years of experience.',
-    legend: 'The bar shows proficiency (5 levels); the number on the right is years of experience.',
+    legend: 'The bar shows proficiency (6 levels); the number on the right is years of experience.',
     categories: {
       frontend: {
         title: 'Frontend',

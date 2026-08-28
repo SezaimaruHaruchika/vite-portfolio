@@ -35,6 +35,7 @@ export const en: Translations = {
     lead: 'Building high-quality apps that last.',
     cards: {
       about: { title: 'About', description: 'Who I am' },
+      skills: { title: 'Skills', description: 'Tech stack' },
       blog: { title: 'Blog', description: 'Tech blog' },
       projects: { title: 'Projects', description: 'GitHub repositories' },
     },
@@ -120,8 +121,16 @@ export const en: Translations = {
       'Email sending (EmailJS) is not configured yet, so this form cannot send messages. Admin: set up .env following docs/setup-emailjs.md.',
     submit: 'Send',
     sending: 'Sending…',
-    success: 'Your message has been sent. I will get back to you soon.',
     error: 'Failed to send. Please try again later.',
+    complete: {
+      title: 'Message sent',
+      subtitle: 'Thanks',
+      lead: [
+        'Thank you for reaching out. I will review your message and reply within 2–3 business days.',
+        'A confirmation email has been sent to the address you provided.',
+      ],
+      spamNote: "If you don't see the email, please check your spam folder.",
+    },
     validation: {
       required: (field) => `${field} is required`,
       email: 'Please enter a valid email address',

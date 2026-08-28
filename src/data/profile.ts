@@ -6,11 +6,15 @@ const githubUsername = import.meta.env.VITE_GITHUB_USERNAME?.trim() || 'Sezaimar
 const xUrl = import.meta.env.VITE_X_URL?.trim() || undefined;
 const contactEmail = import.meta.env.VITE_CONTACT_EMAIL?.trim() || undefined;
 
+import avatarImage from '../assets/avatar.webp';
+
 /**
  * About ページのプロフィール画像。
- * public/avatar.jpg などに画像を置いて '/avatar.jpg' を指定する。undefined のときは丸いプレースホルダーを表示。
+ * src/assets/avatar.webp（円形トリミング済み・560px）を Vite 経由でバンドルする。
+ * public/ の固定 URL ではなくハッシュ付きアセットになるため、URL を推測して直接取得されにくい。
+ * 画像を外したいときは undefined に戻すと丸いプレースホルダー表示になる。
  */
-const avatarUrl = undefined as string | undefined;
+const avatarUrl = avatarImage as string | undefined;
 
 export const profile = {
   /** GitHub のユーザー名（Projects ページの取得元にもなる） */

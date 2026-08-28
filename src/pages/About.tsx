@@ -6,7 +6,7 @@ import { ROUTES } from '../data/routes';
 import { useLanguage } from '../hooks/useLanguage';
 
 /** アバター（280px。スマホでは 200px）。写真未設定の間はグレーの円 */
-const avatarClass = 'size-70 rounded-full bg-border object-cover max-pc:size-50';
+const avatarClass = 'size-70 rounded-full bg-border max-pc:size-50';
 
 /** About ページ（Figma: About） */
 export function About() {
@@ -19,7 +19,16 @@ export function About() {
 
       <div className="flex flex-col items-center gap-4">
         {profile.avatarUrl ? (
-          <img className={avatarClass} src={profile.avatarUrl} alt={t.common.profileName} />
+          // <img> ではなく background-image で表示することで、右クリックの
+          // 「画像を保存」やドラッグでの取り出しをできないようにしている（+右クリックメニュー自体も無効化）
+          <div
+            className={`${avatarClass} bg-cover bg-center select-none`}
+            style={{ backgroundImage: `url(${profile.avatarUrl})` }}
+            role="img"
+            aria-label={t.common.profileName}
+            onContextMenu={(event) => event.preventDefault()}
+            draggable={false}
+          />
         ) : (
           <div className={avatarClass} role="img" aria-label={t.common.profileName} />
         )}

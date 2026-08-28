@@ -5,8 +5,6 @@ Figma でデザインを作成し、そのデザインをもとに実装して�
 
 ## 概要
 
-「想ったモノ」を形に。長く、高品質なアプリを創ります。
-
 自己紹介・スキル・制作物（GitHub リポジトリの自動取得）・ブログ（Strapi）・お問い合わせ（EmailJS）で構成されたポートフォリオサイトです。
 ダークモードと日本語 / 英語の切り替えに対応しています。
 
@@ -14,7 +12,7 @@ Figma でデザインを作成し、そのデザインをもとに実装して�
 
 | ブランチ | 内容 |
 | --- | --- |
-| `web`（このブランチ） | フロントエンド（React + TypeScript + Vite + Tailwind CSS） |
+| `web`（default） | フロントエンド（React + TypeScript + Vite + Tailwind CSS） |
 | `api` | ブログ機能のヘッドレス CMS（Strapi 5） |
 
 ローカルでは `portfolio/` 直下に `portfolio-web/`（= web ブランチ）と `strapi-blog/`（= api ブランチ）を並べて、両方を同時に起動して開発しています。
@@ -60,11 +58,12 @@ https://www.figma.com/design/YlJs8hCWUObTchPDHVlGZI/TypeScript---portfolio%E8%AA
 
 <!-- TODO: 参考にしたサイト・デザインの URL と、どこを参考にしたかを書く -->
 
-- （例）https://example.com — ミニマルな余白の取り方とカード UI を参考にした
+- https://shin-dc.jp/ 余白の取り方やレイアウトを参考にしました。
 
 ## 制作期間
 
-<!-- TODO: 例: 2026年7月20日 〜 2026年8月31日（約6週間） -->
+デザイン1日
+コーディング約1週間
 
 ## 実装した機能
 
@@ -145,3 +144,28 @@ src/
 ├── App.tsx       # ルーティング
 └── main.tsx      # エントリーポイント
 ```
+## あとがき
+### fetch → state → 表示 の場所を説明
+#### fetchしてる場所
+fetchする場所を``src/services/strapi.ts``で管理し、``fetchBlogPosts()``関数がStrapi に HTTP GET を投げます。
+
+URL(参考程度に)→``GET http://localhost:1337/api/blogs?populate=image&sort=publishedAt:desc&pagination[page]=1&pagination[pageSize]=5``
+
+- ``populate=image`` 画像はリレーションなので、付けないと JSON に画像が入ってこない
+- ``sort=publishedAt:desc`` 公開日時の新しい順
+- ``pagination[page]`` ページネーション
+- カテゴリ絞り込み時は``filters[category][$eq]=tech``を追加
+返ってきたJSONから記事の配列と総件数などを取り出して返しています。
+
+#### stateに入れる場所
+``src/hooks/useFetch.ts``でstateに入れて結果をReactに渡しています。
+``strapi.ts``が JSON を取ってくる → useFetch がそれを``state``に入れて``loading/success/error``を管理する → ``Blog.tsx``が状態に応じて描き分ける。通信・状態管理・表示を分けているので、どこかを変えても他に影響しない。
+
+## Blog の 5 フィールド構成（Content-Type Builder）
+| フィールド | 種類（Content-Type Builder） | 設定 | 役割・フロントでの使われ方 |
+| --- | --- | --- | --- |
+| title | Text（Short text） | 必須 | 記事タイトル。一覧カードと詳細ページの見出しに表示 |
+| content | Rich text（Markdown） | 必須 | 本文。フロントで react-markdown が HTML に変換して表示（見出し・コードブロック・改行対応） |
+| image | Media（単数・画像のみ） | 任意 | サムネイル 兼 詳細ページの画像。リレーションなので API に populate=image を付けて初めて JSON に含まれる |
+| category | Enumeration | 必須・デフォルト tech。選択肢: tech / devlog / study / misc | カテゴリ表示とフィルター。一覧の絞り込みは filters[category][$eq]=tech で API 側が行う |
+| publishedAt | （自作ではない）Draft & Publish 有効で Strapi が自動付与 | Publish した瞬間の日時が入る。下書き中は null | 公開日の表示と sort=publishedAt:desc（新しい順）に使用。null の Draft は API に出てこない = 下書きが表示されない仕組み |

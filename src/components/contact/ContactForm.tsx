@@ -1,15 +1,20 @@
 import { IconChevronRight, IconMail } from '@tabler/icons-react';
-import { useContactForm } from '../../hooks/useContactForm';
+import type { useContactForm } from '../../hooks/useContactForm';
 import { useLanguage } from '../../hooks/useLanguage';
 import { isEmailJsConfigured } from '../../services/emailjs';
 import { Alert } from '../ui/Alert';
 import { Button } from '../ui/Button';
 import { FormField } from '../ui/FormField';
 
+interface ContactFormProps {
+  /** Contact ページ側で作った useContactForm の状態（成功時のページ切り替えに使うため親が持つ） */
+  form: ReturnType<typeof useContactForm>;
+}
+
 /** お問い合わせフォーム（Figma: Form card + Contact states） */
-export function ContactForm() {
+export function ContactForm({ form }: ContactFormProps) {
   const { t } = useLanguage();
-  const { values, errors, status, handleChange, handleSubmit } = useContactForm();
+  const { values, errors, status, handleChange, handleSubmit } = form;
   const isSending = status === 'sending';
   const fields = t.contact.fields;
 
@@ -26,7 +31,6 @@ export function ContactForm() {
         </p>
       )}
 
-      {status === 'success' && <Alert variant="success" message={t.contact.success} />}
       {status === 'error' && <Alert variant="error" message={t.contact.error} />}
 
       <FormField

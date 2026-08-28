@@ -41,6 +41,7 @@ export interface Translations {
     lead: string;
     cards: {
       about: { title: string; description: string };
+      skills: { title: string; description: string };
       blog: { title: string; description: string };
       projects: { title: string; description: string };
     };
@@ -112,8 +113,14 @@ export interface Translations {
     notConfigured: string;
     submit: string;
     sending: string;
-    success: string;
     error: string;
+    /** 送信完了ページ（Figma: Contact-complete） */
+    complete: {
+      title: string;
+      subtitle: string;
+      lead: string[];
+      spamNote: string;
+    };
     validation: {
       required: (field: string) => string;
       email: string;

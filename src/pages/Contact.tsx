@@ -1,7 +1,9 @@
 import { IconBrandGithub, IconMail } from '@tabler/icons-react';
+import { ContactComplete } from '../components/contact/ContactComplete';
 import { ContactForm } from '../components/contact/ContactForm';
 import { PageHeading } from '../components/ui/PageHeading';
 import { profile } from '../data/profile';
+import { useContactForm } from '../hooks/useContactForm';
 import { useLanguage } from '../hooks/useLanguage';
 import { page } from '../styles/layout';
 
@@ -11,6 +13,12 @@ const directLinkClass =
 /** Contact ページ（Figma: Contact）。EmailJS でメールを送信する */
 export function Contact() {
   const { t } = useLanguage();
+  const form = useContactForm();
+
+  // 送信に成功したら、ページ全体を送信完了ビューに切り替える（Figma: Contact-complete）
+  if (form.status === 'success') {
+    return <ContactComplete />;
+  }
 
   return (
     <section className={page.section}>
@@ -43,7 +51,7 @@ export function Contact() {
         </div>
 
         <div className="mx-auto mt-16 w-full max-w-column max-pc:mt-8">
-          <ContactForm />
+          <ContactForm form={form} />
         </div>
       </div>
     </section>

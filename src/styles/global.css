@@ -88,7 +88,7 @@
   --text-h3--line-height: 1.2;
   --text-body: 24px; /* Body text: 24 / Regular / lh 1.28 / ls 8% */
   --text-body--line-height: 1.28;
-  --text-body--letter-spacing: 0.08em;
+  --text-body--letter-spacing: 0.04em;
   --text-title: 16px; /* Title: 16 / Bold */
   --text-title--line-height: 1.2;
   --text-caption: 14px; /* Caption: 14 / Regular */

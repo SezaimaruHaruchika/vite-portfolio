@@ -35,6 +35,7 @@ export const ja: Translations = {
     lead: '長く、高品質なアプリを創ります。',
     cards: {
       about: { title: 'About', description: '私について' },
+      skills: { title: 'Skills', description: '使用技術' },
       blog: { title: 'Blog', description: '技術ブログ' },
       projects: { title: 'Projects', description: 'GitHubリポジトリ' },
     },
@@ -120,8 +121,16 @@ export const ja: Translations = {
       'メール送信（EmailJS）が未設定のため、現在このフォームからは送信できません。管理者は docs/setup-emailjs.md の手順で .env を設定してください。',
     submit: '送信する',
     sending: '送信中…',
-    success: '送信が完了しました。お返事まで少々お待ちください。',
     error: '送信に失敗しました。時間をおいて再度お試しください。',
+    complete: {
+      title: '送信が完了しました',
+      subtitle: 'Thanks',
+      lead: [
+        'お問い合わせありがとうございます。内容を確認のうえ、通常 2〜3 営業日以内にご返信いたします。',
+        'ご入力のメールアドレス宛てに、受付確認のメールをお送りしています。',
+      ],
+      spamNote: 'メールが届かない場合は、迷惑メールフォルダをご確認ください。',
+    },
     validation: {
       required: (field) => `${field}を入力してください`,
       email: 'メールアドレスの形式が正しくありません',

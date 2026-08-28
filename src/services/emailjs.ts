@@ -18,8 +18,8 @@ export const isEmailJsConfigured = (): boolean =>
 /**
  * お問い合わせ内容を EmailJS 経由でメール送信する。
  *
- * テンプレート側では以下の変数を使う:
- *   {{from_name}} {{reply_to}} {{subject}} {{message}}
+ * テンプレート側では以下の変数を使う（docs/emailjs-template.html に対応）:
+ *   {{name}} {{email}} {{title}} {{message}} {{time}}
  */
 export async function sendContactEmail(values: ContactFormValues): Promise<void> {
   if (!isEmailJsConfigured()) {
@@ -32,10 +32,14 @@ export async function sendContactEmail(values: ContactFormValues): Promise<void>
     config.serviceId,
     config.templateId,
     {
-      from_name: values.name,
-      reply_to: values.email,
-      subject: values.subject,
+      name: values.name,
+      email: values.email,
+      title: values.subject,
       message: values.message,
+      // メールテンプレートの「受信日時」欄に表示する（例: 2026/08/27 18:45）
+      time: new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium', timeStyle: 'short' }).format(
+        new Date(),
+      ),
     },
     { publicKey: config.publicKey },
   );

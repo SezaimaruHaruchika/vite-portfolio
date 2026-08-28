@@ -1,4 +1,4 @@
-import { IconBook2, IconCode, IconTools } from '@tabler/icons-react';
+import { IconBook2, IconBrandGithub, IconCode, IconTools } from '@tabler/icons-react';
 import { NavCard } from '../components/home/NavCard';
 import { ROUTES } from '../data/routes';
 import { useLanguage } from '../hooks/useLanguage';
@@ -29,6 +29,12 @@ export function Home() {
           description={cards.about.description}
         />
         <NavCard
+          to={ROUTES.skills}
+          icon={<IconTools size={24} />}
+          title={cards.skills.title}
+          description={cards.skills.description}
+        />
+        <NavCard
           to={ROUTES.blog}
           icon={<IconBook2 size={24} />}
           title={cards.blog.title}
@@ -36,7 +42,7 @@ export function Home() {
         />
         <NavCard
           to={ROUTES.projects}
-          icon={<IconTools size={24} />}
+          icon={<IconBrandGithub size={24} />}
           title={cards.projects.title}
           description={cards.projects.description}
         />

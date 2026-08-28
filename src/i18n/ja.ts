@@ -63,15 +63,16 @@ export const ja: Translations = {
       },
       backend: {
         title: 'バックエンド',
-        description: 'Node.js や Java で API を設計・実装し、Strapi などの CMS とも連携します。',
+        description:
+          'Node.js・Python（Django）・PHP など複数の言語で API を設計・実装し、Strapi などの CMS とも連携します。',
       },
       infra: {
         title: 'インフラ・ツール',
         description:
-          'Git でのバージョン管理、Docker での環境構築、Figma でのデザイン連携など、開発を支える技術です。',
+          'Git でのバージョン管理、Cloudflare や AWS でのデプロイ・運用、Figma でのデザイン連携など、開発を支える技術です。',
       },
     },
-    years: (years) => `${years} 年`,
+    years: (years) => (years < 1 ? '1 年未満' : `${years} 年`),
   },
   projects: {
     title: 'プロジェクト',

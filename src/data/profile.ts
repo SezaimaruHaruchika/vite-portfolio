@@ -23,6 +23,6 @@ export const profile = {
   xUrl,
   contactEmail,
   avatarUrl,
-  /** About ページに表示する使用技術タグ */
-  techStack: ['Node.js', 'TypeScript', 'Vite React', 'Next.js', 'Hono', 'Java'],
+  /** About ページに表示する使用技術タグ（Skills ページの内容と揃える） */
+  techStack: ['TypeScript', 'React (Vite)', 'Next.js', 'Node.js', 'Python (Django)', 'PHP', 'Java', 'Strapi'],
 } as const;

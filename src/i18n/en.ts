@@ -63,15 +63,16 @@ export const en: Translations = {
       },
       backend: {
         title: 'Backend',
-        description: 'Designing and building APIs with Node.js and Java, integrating with CMSs such as Strapi.',
+        description:
+          'Designing and building APIs in multiple languages — Node.js, Python (Django), and PHP — and integrating with CMSs such as Strapi.',
       },
       infra: {
         title: 'Infra / Tools',
         description:
-          'Technologies that support development: version control with Git, environments with Docker, and design collaboration with Figma.',
+          'Technologies that support development: version control with Git, deployment and operations on Cloudflare and AWS, and design collaboration with Figma.',
       },
     },
-    years: (years) => (years === 1 ? '1 yr' : `${years} yrs`),
+    years: (years) => (years < 1 ? 'under 1 yr' : years === 1 ? '1 yr' : `${years} yrs`),
   },
   projects: {
     title: 'Projects',

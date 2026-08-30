@@ -9,7 +9,7 @@ export function NotFound() {
 
   return (
     // ヘッダー（--header-h）を除いた全画面の高さ。フッターはスクロールで現れる
-    <section className="flex min-h-[calc(100dvh-var(--header-h))] w-full flex-1 flex-col items-center justify-center gap-4 px-4 py-16 text-center">
+    <section className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 py-16 text-center">
       <title>{`404 | ${t.common.siteName}`}</title>
       <p className="font-mono text-[72px] leading-none font-medium text-accent">404</p>
       <h1 className="text-h2 font-bold text-text">{t.notFound.title}</h1>

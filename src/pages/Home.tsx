@@ -9,8 +9,8 @@ export function Home() {
   const cards = t.home.cards;
 
   return (
-    // ヘッダー（--header-h）を除いた全画面の高さ。フッターはスクロールで現れる。pl-33/pr-36 = 132px/144px
-    <section className="mx-auto grid min-h-[calc(100dvh-var(--header-h))] w-full max-w-[1512px] grid-cols-[1fr_1fr] items-center gap-12 py-16 pr-36 pl-33 max-wide:px-12 max-pc:grid-cols-1 max-pc:items-start max-pc:px-4 max-pc:pt-12">
+    // flex-1 でヘッダーとフッターの間の残り空間いっぱいに広がり、ヒーローが中央・フッターは 1 画面内に収まる。pl-33/pr-36 = 132px/144px
+    <section className="mx-auto grid w-full max-w-[1512px] flex-1 grid-cols-[1fr_1fr] items-center gap-12 py-16 pr-36 pl-33 max-wide:px-12 max-pc:grid-cols-1 max-pc:items-start max-pc:px-4 max-pc:pt-12">
       <title>{t.common.siteName}</title>
 
       <div className="flex flex-col gap-2">

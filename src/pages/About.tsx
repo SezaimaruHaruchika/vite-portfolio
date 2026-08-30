@@ -13,8 +13,8 @@ export function About() {
   const { t } = useLanguage();
 
   return (
-    // ヘッダー（--header-h）を除いた全画面の高さ。フッターはスクロールで現れる
-    <section className="mx-auto grid min-h-[calc(100dvh-var(--header-h))] w-full max-w-[1512px] grid-cols-[280px_minmax(0,684px)] items-center justify-center gap-x-24 px-12 py-16 max-wide:gap-x-12 max-pc:grid-cols-1 max-pc:items-start max-pc:gap-y-8 max-pc:px-4 max-pc:pt-12">
+    // flex-1 でヘッダーとフッターの間の残り空間いっぱいに広がり、コンテンツが中央・フッターは 1 画面内に収まる
+    <section className="mx-auto grid w-full max-w-[1512px] flex-1 grid-cols-[280px_minmax(0,684px)] items-center justify-center gap-x-24 px-12 py-16 max-wide:gap-x-12 max-pc:grid-cols-1 max-pc:items-start max-pc:gap-y-8 max-pc:px-4 max-pc:pt-12">
       <title>{`${t.about.subtitle} | ${t.common.siteName}`}</title>
 
       <div className="flex flex-col items-center gap-4">

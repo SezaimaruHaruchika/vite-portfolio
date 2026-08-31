@@ -8,6 +8,14 @@ Figma でデザインを作成し、そのデザインをもとに実装して�
 自己紹介・スキル・制作物（GitHub リポジトリの自動取得）・ブログ（Strapi）・お問い合わせ（EmailJS）で構成されたポートフォリオサイトです。
 ダークモードと日本語 / 英語の切り替えに対応しています。
 
+## 公開 URL
+
+- **サイト**: https://vite-portfolio-one-phi.vercel.app
+- ブログ API（Strapi）: https://vite-portfolio-abtp.onrender.com
+
+フロントは Vercel、Strapi は Render（DB: PostgreSQL / 画像: Cloudinary）で公開しています。構築手順は [docs/setup-deploy.md](docs/setup-deploy.md) を参照してください。
+※無料プランのためサーバーがスリープすることがあり、ブログの初回表示に最大 1 分ほどかかる場合があります（エラー時は「再読み込み」で復帰します）。
+
 ## ブランチ構成
 
 | ブランチ | 内容 |
@@ -56,8 +64,6 @@ https://www.figma.com/design/YlJs8hCWUObTchPDHVlGZI/TypeScript---portfolio%E8%AA
 
 ## 参考デザイン
 
-<!-- TODO: 参考にしたサイト・デザインの URL と、どこを参考にしたかを書く -->
-
 - https://shin-dc.jp/ 余白の取り方やレイアウトを参考にしました。
 
 ## 制作期間
@@ -71,7 +77,7 @@ https://www.figma.com/design/YlJs8hCWUObTchPDHVlGZI/TypeScript---portfolio%E8%AA
 - **ページ構成（React Router）**: Top / About / Skills / Projects / Blog 一覧 / Blog 詳細 / Contact / 404
 - **ブログ（Strapi）**: 記事一覧（カテゴリフィルター・ページネーション）と記事詳細（Markdown 表示）。取得中はスケルトン表示、失敗時は再読み込みボタンを表示
 - **Projects（GitHub API）**: 公開リポジトリを自動取得し、言語バッジ・最終更新日つきのカードで表示
-- **お問い合わせ（EmailJS）**: 名前 / メールアドレス / 件名 / メッセージの入力チェック、送信中表示、送信成功 / エラー表示
+- **お問い合わせ（EmailJS）**: 名前 / メールアドレス / 件名 / メッセージの入力チェック、送信中表示、送信後は送信完了ページを表示。送信者への自動返信メールにも対応
 - **ダークモード**: ヘッダーのボタンで切り替え。設定は localStorage に保存し、初回は OS の設定に従う
 - **日本語 / 英語切り替え**: Context API で全ページの文言を切り替え
 - **レスポンシブ対応**: PC（1512px）とスマートフォン（375px）の Figma デザインに対応。スマホはハンバーガーメニュー
@@ -87,7 +93,10 @@ https://www.figma.com/design/YlJs8hCWUObTchPDHVlGZI/TypeScript---portfolio%E8%AA
 
 ## 難しかったところ
 
-<!-- TODO: 自分の言葉で書く（例: Strapi v5 のレスポンス形式、EmailJS のテンプレート設定、レスポンシブ対応 など） -->
+- **Tailwind CSS v4 への全面移行**: 独自 CSS から移行した際、Tailwind のリセット CSS（Preflight）でブラウザ既定の余白が消え、ブログ本文などのレイアウトが数十 px ズレた。移行前後のスクリーンショットを比較しながら、全ページの見た目が一致するまで調整した。
+- **EmailJS の設定**: コード側の変数名とテンプレート側の `{{変数}}` 名が一致していないと、エラーにならず空欄のメールが届くため原因の特定に苦労した。自動返信メールが受信トレイに見当たらない問題も、Gmail のカテゴリタブに振り分けられていたのが原因だった。
+- **Strapi の Markdown の改行**: エディタでの Enter 1 回が画面に反映されず、Markdown の仕様（単独の改行は無視される）を調べて `remark-breaks` の導入で解決した。
+- **デプロイ時の環境差**: 本番の Strapi で Public ロールの権限を設定し忘れて API が全部 403 になるなど、「ローカルでは動くのに本番で動かない」原因の切り分けに手間取った。無料プランのスリープ対策として、実装しておいたエラー表示 + 再読み込みボタンが役立った。
 
 ---
 
@@ -159,9 +168,13 @@ URL(参考程度に)→``GET http://localhost:1337/api/blogs?populate=image&sort
 
 #### stateに入れる場所
 ``src/hooks/useFetch.ts``でstateに入れて結果をReactに渡しています。
-``strapi.ts``が JSON を取ってくる → useFetch がそれを``state``に入れて``loading/success/error``を管理する → ``Blog.tsx``が状態に応じて描き分ける。通信・状態管理・表示を分けているので、どこかを変えても他に影響しない。
 
-## Blog の 5 フィールド構成（Content-Type Builder）
+#### 表示する場所
+``src/pages/Blog.tsx``（+ ``BlogCard.tsx``）が state の状態に応じて描き分けます。``loading`` ならスケルトン、``error`` ならエラーメッセージ + 再読み込みボタン、``success`` なら記事カードの一覧を表示します。
+
+まとめると: ``strapi.ts``が JSON を取ってくる → useFetch がそれを``state``に入れて``loading/success/error``を管理する → ``Blog.tsx``が状態に応じて描き分ける。通信・状態管理・表示を分けているので、どこかを変えても他に影響しない。
+
+### Blog の 5 フィールド構成（Content-Type Builder）
 | フィールド | 種類（Content-Type Builder） | 設定 | 役割・フロントでの使われ方 |
 | --- | --- | --- | --- |
 | title | Text（Short text） | 必須 | 記事タイトル。一覧カードと詳細ページの見出しに表示 |

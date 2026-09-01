@@ -80,13 +80,13 @@
     'Yu Gothic', sans-serif;
   --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --text-h1: 48px; /* Heading 1: 48 / Bold */
+  --text-h1: 44px; /* Heading 1: Figma 48 → 44（少し控えめなサイズに調整） */
   --text-h1--line-height: 1.2;
   --text-h2: 36px; /* Heading 2: 36 / Bold */
   --text-h2--line-height: 1.2;
   --text-h3: 18px; /* Heading 3: 18 / Bold */
   --text-h3--line-height: 1.2;
-  --text-body: 24px; /* Body text: 24 / Regular / lh 1.28 / ls 8% */
+  --text-body: 22px; /* Body text: Figma 24 → 22（少し控えめなサイズに調整） / lh 1.28 / ls 4% */
   --text-body--line-height: 1.28;
   --text-body--letter-spacing: 0.04em;
   --text-title: 16px; /* Title: 16 / Bold */
